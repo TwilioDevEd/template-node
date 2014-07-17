@@ -21,5 +21,12 @@ module.exports = {
     host: process.env.HOST || 'localhost',
 
     // The port your web application will run on
-    port: process.env.PORT || 3000
+    port: process.env.PORT || 3000,
+
+    // App-specific configuration
+    // --------------------------
+
+    // This is the number of the real estate agent you want to call, or your
+    // existing customer support line
+    agentNumber: process.env.AGENT_NUMBER || '+15556660000'
 };
