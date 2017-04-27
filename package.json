@@ -4,7 +4,7 @@
   "description": "A template project for Twilio projects developed in Node",
   "main": "app.js",
   "scripts": {
-    "test": "mocha"
+    "test": "node_modules/.bin/mocha -u tdd ./test"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/TwilioDevEd/template-node",
   "dependencies": {
-    "twilio": "^1.6.0",
+    "twilio": "~3.0.0-rc.16",
     "express": "^4.5.1",
     "morgan": "^1.1.1"
   },

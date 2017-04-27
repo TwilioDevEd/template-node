@@ -2,12 +2,14 @@ var path = require('path');
 var express = require('express');
 var morgan = require('morgan')
 var twilio = require('twilio');
+var VoiceResponse = twilio.twiml.VoiceResponse;
+var MessagingResponse = twilio.twiml.MessagingResponse;
 var config = require('../config');
 
 // Configure appplication routes
 module.exports = function(app) {
 
-    // Mount Express middleware for serving static content from the "public" 
+    // Mount Express middleware for serving static content from the "public"
     // directory
     app.use(express.static(path.join(process.cwd(), 'public')));
 
@@ -15,10 +17,10 @@ module.exports = function(app) {
     app.use(morgan());
 
     // In production, validate that inbound requests have in fact originated
-    // from Twilio. In our node.js helper library, we provide Express middleware 
+    // from Twilio. In our node.js helper library, we provide Express middleware
     // for this purpose. This validation will only be performed in production
     if (config.nodeEnv === 'production') {
-        // For all webhook routes prefixed by "/twilio", apply validation 
+        // For all webhook routes prefixed by "/twilio", apply validation
         // middleware
         app.use('/twilio/*', twilio.webhook(config.authToken, {
             host: config.host,
@@ -32,7 +34,7 @@ module.exports = function(app) {
         // Our response to this request will be an XML document in the "TwiML"
         // format. Our node.js library provides a helper for generating one
         // of these documents
-        var twiml = new twilio.TwimlResponse();
+        var twiml = new VoiceResponse();
         twiml.say('hello, monkey!', {
             voice: 'alice'
         });
@@ -45,9 +47,9 @@ module.exports = function(app) {
     // Configure a Twilio webhook URL that could be used to respond to an
     // incoming message
     app.post('/twilio/message', function(request, response) {
-        // As the voice example above, our response to this request will be 
+        // As the voice example above, our response to this request will be
         // an XML document in the "TwiML" format
-        var twiml = new twilio.TwimlResponse();
+        var twiml = new MessagingResponse();
         twiml.message('hello, monkey!');
 
         // Render the twiml instructions as XML
